@@ -1,13 +1,21 @@
 <div class="p-5 pb-8">
   @if (playlist()) {
-    <div class="mb-5 flex align-items-end gap-4">
-      <div class="surface-300 border-round w-15rem h-15rem flex align-items-center justify-content-center shadow-4">
-        <i class="pi pi-music text-8xl text-600"></i>
+    <div class="mb-6 flex flex-column md:flex-row align-items-center md:align-items-end gap-5">
+      <div class="playlist-cover w-15rem h-15rem flex align-items-center justify-content-center shadow-8 border-round-2xl relative overflow-hidden border-1 border-white-alpha-10">
+        <div class="absolute inset-0 bg-gradient-cover opacity-80"></div>
+        <i class="pi pi-music text-8xl text-white relative z-1 shadow-4"></i>
+        <div class="glow-effect"></div>
       </div>
-      <div>
-        <span class="text-sm font-bold uppercase text-primary">Lista de reproducción</span>
-        <h1 class="text-7xl m-0 font-bold text-900">{{ playlist()?.name }}</h1>
-        <p class="text-xl text-500 mt-2">{{ playlist()?.description }}</p>
+      <div class="text-center md:text-left">
+        <span class="text-sm font-bold uppercase tracking-widest text-primary border-bottom-2 border-primary pb-1">Colección Personal</span>
+        <h1 class="text-7xl m-0 mt-3 font-bold text-white tracking-tight leading-tight">{{ playlist()?.name }}</h1>
+        <div class="flex align-items-center gap-2 mt-3 text-400">
+          <i class="pi pi-user text-sm"></i>
+          <span class="font-medium">Tu Biblioteca</span>
+          <span class="mx-1">•</span>
+          <span class="font-bold text-200">{{ playlist()?.tracks?.length || 0 }} canciones</span>
+        </div>
+        <p class="text-xl text-400 mt-4 line-height-3 max-w-30rem">{{ playlist()?.description }}</p>
       </div>
     </div>
 

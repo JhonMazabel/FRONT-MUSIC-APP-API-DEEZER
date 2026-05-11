@@ -2,7 +2,7 @@ export interface Track {
   id: string;
   title: string;
   artist: string;
-  duration: number; // in seconds
+  duration: number;
   albumArt: string;
   previewUrl: string;
 }

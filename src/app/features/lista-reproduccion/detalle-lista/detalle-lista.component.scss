@@ -1,0 +1,31 @@
+.playlist-cover {
+    background: #2a2a40;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.bg-gradient-cover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a2e 100%);
+}
+
+.glow-effect {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+h1 {
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}

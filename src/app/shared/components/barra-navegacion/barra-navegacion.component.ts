@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../../core/servicios/autenticacion.servicio';
 
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -14,9 +16,20 @@ import { AuthService } from '../../../core/servicios/autenticacion.servicio';
 export class NavbarComponent {
   user = this.authService.getUser();
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   logout() {
     this.authService.logout();
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
+  goForward() {
+    this.location.forward();
   }
 }
