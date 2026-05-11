@@ -1,4 +1,4 @@
-@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/themes/lara-dark-blue/theme.css";
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
@@ -8,12 +8,25 @@ body {
     font-family: var(--font-family);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--surface-ground);
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: #e2e2e2;
+    min-height: 100vh;
 }
 
-.p-card {
-    transition: transform 0.2s;
-    &:hover {
-        transform: translateY(-5px);
-    }
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-round: 1rem;
+}
+
+.p-dialog .p-dialog-header, .p-dialog .p-dialog-content, .p-dialog .p-dialog-footer {
+    background: #1a1a2e;
+    color: #e2e2e2;
+}
+
+.p-inputtext {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
 }

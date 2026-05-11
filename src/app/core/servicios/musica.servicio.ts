@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Track, Playlist } from '../models/music.models';
+import { Track, Playlist } from '../models/musica.modelos';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,18 +9,28 @@ import { map } from 'rxjs/operators';
 })
 export class MusicService {
   private readonly baseUrl = 'https://api.deezer.com/search';
+  private readonly STORAGE_KEY = 'music_app_playlists';
 
-  private playlists = signal<Playlist[]>([
-    {
-      id: '1',
-      name: 'Mis Favoritas',
-      description: 'Las mejores canciones para programar',
-      tracks: [],
-      createdAt: new Date()
-    }
-  ]);
+  private playlists = signal<Playlist[]>(this.loadPlaylists());
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    effect(() => {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.playlists()));
+    });
+  }
+
+  private loadPlaylists(): Playlist[] {
+    const saved = localStorage.getItem(this.STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [
+      {
+        id: '1',
+        name: 'Mis Favoritas',
+        description: 'Las mejores canciones para programar',
+        tracks: [],
+        createdAt: new Date()
+      }
+    ];
+  }
 
   getPlaylists() {
     return this.playlists.asReadonly();

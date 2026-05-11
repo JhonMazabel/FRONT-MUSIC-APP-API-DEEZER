@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { NavbarComponent } from './shared/components/barra-navegacion/barra-navegacion.component';
 import { RouterModule } from '@angular/router';
-import { AuthService } from './core/services/auth.service';
+import { AuthService } from './core/servicios/autenticacion.servicio';
+
+import { PlayerComponent } from './shared/components/reproductor/reproductor.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, PlayerComponent],
   template: `
     <div class="min-h-screen flex flex-column">
       @if (authService.getUser()()) {
@@ -16,6 +18,7 @@ import { AuthService } from './core/services/auth.service';
       <main class="flex-grow-1">
         <router-outlet></router-outlet>
       </main>
+      <app-player></app-player>
     </div>
   `,
   styles: [`

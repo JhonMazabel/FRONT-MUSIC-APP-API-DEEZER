@@ -1,0 +1,46 @@
+<div class="p-4 lg:p-7 min-h-screen">
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-8 gap-4">
+    <div>
+      <h1 class="m-0 text-5xl font-bold tracking-tight text-white">Descubrir</h1>
+      <p class="text-400 text-lg mt-3">Explora tus colecciones personales y ritmos favoritos.</p>
+    </div>
+    <p-button label="Crear Colección" icon="pi pi-plus-circle" (onClick)="showDialog()" 
+              styleClass="p-button-rounded p-button-lg shadow-8 transition-transform transition-duration-300 hover:scale-105"></p-button>
+  </div>
+
+  <div class="grid mt-2">
+    @for (playlist of playlists(); track playlist.id) {
+      <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+        <app-playlist-card [playlist]="playlist" (onDelete)="deletePlaylist($event)"></app-playlist-card>
+      </div>
+    } @empty {
+      <div class="col-12 flex justify-content-center mt-8">
+        <div class="glass-card p-8 text-center max-w-30rem shadow-8 border-1 border-white-alpha-10">
+          <div class="bg-primary-reverse border-circle w-6rem h-6rem flex align-items-center justify-content-center mx-auto mb-5 shadow-4">
+            <i class="pi pi-plus text-4xl text-primary"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-white m-0">Sin listas aún</h2>
+          <p class="text-400 mt-3 mb-6 line-height-3">Comienza tu viaje musical creando una lista personalizada para tus mejores momentos.</p>
+          <p-button label="Nueva Lista" icon="pi pi-plus" (onClick)="showDialog()" styleClass="p-button-outlined p-button-rounded"></p-button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <p-dialog header="Configuración de la Lista" [(visible)]="display" [modal]="true" [style]="{width: '400px'}" [draggable]="false" [resizable]="false" styleClass="p-fluid">
+    <div class="flex flex-column gap-4 pt-2">
+      <div class="flex flex-column gap-2">
+        <label for="name" class="font-bold">Nombre de la lista</label>
+        <input pInputText id="name" [(ngModel)]="newName" placeholder="Ej: Rock 80s" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="desc" class="font-bold">Descripción (opcional)</label>
+        <textarea pInputText id="desc" [(ngModel)]="newDesc" rows="3" placeholder="De qué trata esta lista..."></textarea>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Cancelar" icon="pi pi-times" (onClick)="display=false" severity="secondary" [text]="true"></p-button>
+      <p-button label="Crear Lista" icon="pi pi-check" (onClick)="savePlaylist()" [disabled]="!newName" severity="primary"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>

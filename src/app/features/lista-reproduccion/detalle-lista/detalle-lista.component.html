@@ -1,0 +1,65 @@
+<div class="p-5 pb-8">
+  @if (playlist()) {
+    <div class="mb-5 flex align-items-end gap-4">
+      <div class="surface-300 border-round w-15rem h-15rem flex align-items-center justify-content-center shadow-4">
+        <i class="pi pi-music text-8xl text-600"></i>
+      </div>
+      <div>
+        <span class="text-sm font-bold uppercase text-primary">Lista de reproducción</span>
+        <h1 class="text-7xl m-0 font-bold text-900">{{ playlist()?.name }}</h1>
+        <p class="text-xl text-500 mt-2">{{ playlist()?.description }}</p>
+      </div>
+    </div>
+
+    <div class="surface-card p-4 border-round-xl shadow-1 mb-5 border-1 surface-border">
+      <h3 class="mt-0 mb-4">Añadir contenido</h3>
+      <div class="flex gap-2 mb-4">
+        <span class="p-input-icon-left flex-grow-1">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Busca canciones o artistas..." class="w-full" />
+        </span>
+        <p-button label="Buscar" icon="pi pi-search" (onClick)="search()"></p-button>
+      </div>
+
+      @if (searchResults().length > 0) {
+        <p-table [value]="searchResults()" [rows]="5" [paginator]="true" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th></th>
+              <th>Título</th>
+              <th>Artista</th>
+              <th class="w-3rem"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-track>
+            <tr>
+              <td><img [src]="track.albumArt" width="40" class="border-round shadow-1" /></td>
+              <td class="font-bold">{{ track.title }}</td>
+              <td>{{ track.artist }}</td>
+              <td>
+                <p-button icon="pi pi-plus" [rounded]="true" [text]="true" (onClick)="addTrack(track)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
+    </div>
+
+    <div class="surface-card p-0 border-round-xl shadow-1 overflow-hidden border-1 surface-border">
+      <app-track-list 
+        [tracks]="playlist()?.tracks || []" 
+        [currentTrackId]="currentTrack()?.id"
+        [isPlaying]="isPlaying()"
+        (onTogglePlay)="togglePlay($event)"
+        (onRemove)="removeTrack($event)">
+      </app-track-list>
+      
+      @if (!playlist()?.tracks?.length) {
+        <div class="p-8 text-center">
+          <i class="pi pi-cloud-download text-6xl text-200 mb-3"></i>
+          <p class="text-500 text-xl">Tu lista está vacía. Usa el buscador de arriba para agregar canciones.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

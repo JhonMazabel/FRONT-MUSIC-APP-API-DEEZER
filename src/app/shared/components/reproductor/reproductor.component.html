@@ -1,0 +1,33 @@
+@if (currentTrack()) {
+  <div class="player-container fixed bottom-0 left-0 w-full surface-900 text-white p-3 flex align-items-center justify-content-between shadow-8 z-5 animation-duration-300 fadein">
+    <div class="flex align-items-center gap-3 w-3">
+      <img [src]="currentTrack()?.albumArt" width="56" class="border-round" />
+      <div class="overflow-hidden">
+        <div class="white-space-nowrap font-bold text-overflow-ellipsis">{{ currentTrack()?.title }}</div>
+        <div class="text-400 text-sm">{{ currentTrack()?.artist }}</div>
+      </div>
+    </div>
+    
+    <div class="flex flex-column align-items-center gap-2 w-6">
+      <div class="flex align-items-center gap-4">
+         <p-button icon="pi pi-step-backward" [text]="true" styleClass="text-white"></p-button>
+         <p-button [icon]="isPlaying() ? 'pi pi-pause' : 'pi pi-play'" [rounded]="true" severity="secondary" (onClick)="togglePlay()"></p-button>
+         <p-button icon="pi pi-step-forward" [text]="true" styleClass="text-white"></p-button>
+      </div>
+      <div class="w-full flex align-items-center gap-2 px-8">
+        <span class="text-xs text-400">{{ formatTime(currentTime()) }}</span>
+        <div class="flex-grow-1 surface-700 border-round h-1rem overflow-hidden cursor-pointer" (click)="onSeek($event)">
+          <div class="bg-primary h-full transition-width" [style.width.%]="(currentTime() / duration()) * 100"></div>
+        </div>
+        <span class="text-xs text-400">{{ formatTime(duration()) }}</span>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-end gap-3 w-3">
+      <i [className]="volume() === 0 ? 'pi pi-volume-off' : 'pi pi-volume-up'"></i>
+      <div class="w-8rem surface-700 border-round h-1rem overflow-hidden cursor-pointer" (click)="onVolumeChange($event)">
+         <div class="bg-white h-full" [style.width.%]="volume() * 100"></div>
+      </div>
+    </div>
+  </div>
+}

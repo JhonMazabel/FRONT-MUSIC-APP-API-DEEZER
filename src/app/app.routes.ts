@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guardianes/autenticacion.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'playlists', pathMatch: 'full' },
@@ -10,11 +10,11 @@ export const routes: Routes = [
   {
     path: 'playlists',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/playlist/playlist-list/playlist-list.component').then(c => c.PlaylistListComponent)
+    loadComponent: () => import('./features/lista-reproduccion/mis-listas/mis-listas.component').then(c => c.PlaylistListComponent)
   },
   {
     path: 'playlists/:id',
     canActivate: [authGuard],
-    loadComponent: () => import('./features/playlist/playlist-detail/playlist-detail.component').then(c => c.PlaylistDetailComponent)
+    loadComponent: () => import('./features/lista-reproduccion/detalle-lista/detalle-lista.component').then(c => c.PlaylistDetailComponent)
   }
 ];

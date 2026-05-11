@@ -4,32 +4,14 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/servicios/autenticacion.servicio';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, CardModule],
-  template: `
-    <div class="flex align-items-center justify-content-center min-h-screen surface-ground">
-      <p-card header="Iniciar Sesión" [style]="{width: '400px'}">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
-          <div class="flex flex-column gap-2">
-            <label for="email">Correo Electrónico</label>
-            <input pInputText id="email" formControlName="email" type="email" />
-            @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-              <small class="p-error">Ingrese un correo válido.</small>
-            }
-          </div>
-          <div class="flex flex-column gap-2">
-            <label for="password">Contraseña</label>
-            <input pInputText id="password" formControlName="password" type="password" />
-          </div>
-          <p-button label="Ingresar" type="submit" [disabled]="loginForm.invalid" styleClass="w-full"></p-button>
-        </form>
-      </p-card>
-    </div>
-  `
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm = this.fb.group({
