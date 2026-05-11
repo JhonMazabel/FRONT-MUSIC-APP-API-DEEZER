@@ -4,6 +4,13 @@ import { Track, Playlist } from '../modelos/musica.modelos';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Injectable, signal, effect } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Track, Playlist } from '../modelos/musica.modelos';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,28 +20,16 @@ export class MusicService {
 
   private playlists = signal<Playlist[]>(this.loadPlaylists());
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService
+  ) {
     effect(() => {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.playlists()));
     });
   }
 
-  private loadPlaylists(): Playlist[] {
-    const saved = localStorage.getItem(this.STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [
-      {
-        id: '1',
-        name: 'Mis Favoritas',
-        description: 'Las mejores canciones para programar',
-        tracks: [],
-        createdAt: new Date()
-      }
-    ];
-  }
-
-  getPlaylists() {
-    return this.playlists.asReadonly();
-  }
+  // ... loadPlaylists ...
 
   createPlaylist(name: string, description: string) {
     const newPlaylist: Playlist = {
@@ -45,40 +40,38 @@ export class MusicService {
       createdAt: new Date()
     };
     this.playlists.update(p => [...p, newPlaylist]);
+    this.showSuccess('Lista creada', `"${name}" se añadió a tu biblioteca`);
   }
 
   deletePlaylist(id: string) {
     this.playlists.update(p => p.filter(pl => pl.id !== id));
+    this.showSuccess('Lista eliminada', 'La lista se quitó de tu biblioteca');
   }
 
   updatePlaylist(id: string, name: string, description: string) {
     this.playlists.update(playlists => playlists.map(p => 
       p.id === id ? { ...p, name, description } : p
     ));
+    this.showSuccess('Lista actualizada', 'Los cambios se guardaron con éxito');
   }
 
   addTrackToPlaylist(playlistId: string, track: Track) {
     this.playlists.update(playlists => playlists.map(p => 
       p.id === playlistId ? { ...p, tracks: [...p.tracks, track] } : p
     ));
+    this.showSuccess('Canción añadida', `"${track.title}" se añadió a la lista`);
   }
 
   removeTrackFromPlaylist(playlistId: string, trackId: string) {
     this.playlists.update(playlists => playlists.map(p => 
       p.id === playlistId ? { ...p, tracks: p.tracks.filter((t: any) => t.id !== trackId) } : p
     ));
+    this.showSuccess('Canción eliminada', 'Se quitó la canción de la lista');
   }
 
-  searchTracks(query: string): Observable<Track[]> {
-    return this.http.get<any>(`${this.baseUrl}?q=${query}`).pipe(
-      map(res => res.data.map((item: any) => ({
-        id: item.id.toString(),
-        title: item.title,
-        artist: item.artist.name,
-        duration: item.duration,
-        albumArt: item.album.cover_medium,
-        previewUrl: item.preview
-      })))
-    );
+  private showSuccess(summary: string, detail: string) {
+    this.messageService.add({ severity: 'success', summary, detail, life: 3000 });
   }
+
+  // ... searchTracks ...
 }
