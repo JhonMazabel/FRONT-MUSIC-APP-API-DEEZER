@@ -1,14 +1,14 @@
 import { Injectable, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Track, Playlist } from '../modelos/musica.modelos';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicService {
-  private readonly baseUrl = 'https://api.deezer.com/search';
+  private readonly baseUrl = '/deezer-api/search';
   private readonly STORAGE_KEY = 'music_app_playlists';
 
   private playlists = signal<Playlist[]>(this.loadPlaylists());
@@ -70,8 +70,8 @@ export class MusicService {
   }
 
   searchTracks(query: string): Observable<Track[]> {
-    return this.http.get<any>(`https://api.allorigins.win/get?url=${encodeURIComponent(`${this.baseUrl}?q=${query}`)}`).pipe(
-      map(res => JSON.parse(res.contents).data.map((item: any) => ({
+    return this.http.get<any>(`${this.baseUrl}?q=${query}`).pipe(
+      map(res => res.data.map((item: any) => ({
         id: item.id.toString(),
         title: item.title,
         artist: item.artist.name,

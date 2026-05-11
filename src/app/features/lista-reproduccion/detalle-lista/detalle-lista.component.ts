@@ -34,7 +34,7 @@ export class PlaylistDetailComponent {
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     effect(() => {
-      this.playlist.set(this.musicService.getPlaylists()().find(p => p.id === id));
+      this.playlist.set(this.musicService.getPlaylists()().find((p: any) => p.id === id));
     }, { allowSignalWrites: true });
   }
 
