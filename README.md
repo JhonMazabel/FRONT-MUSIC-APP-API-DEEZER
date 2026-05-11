@@ -46,4 +46,4 @@ src/app/
     ```
 
 ## Desarrollador
-**Jhon Mazabel** - Senior Front-end Developer
+**Jhon Mazabel** -  Front-end Developer
