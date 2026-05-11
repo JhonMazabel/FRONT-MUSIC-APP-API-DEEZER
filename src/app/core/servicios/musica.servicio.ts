@@ -3,12 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Track, Playlist } from '../modelos/musica.modelos';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { Injectable, signal, effect } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Track, Playlist } from '../modelos/musica.modelos';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 
 @Injectable({
@@ -29,7 +23,22 @@ export class MusicService {
     });
   }
 
-  // ... loadPlaylists ...
+  private loadPlaylists(): Playlist[] {
+    const saved = localStorage.getItem(this.STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [
+      {
+        id: '1',
+        name: 'Mis Favoritas',
+        description: 'Las mejores canciones para programar',
+        tracks: [],
+        createdAt: new Date()
+      }
+    ];
+  }
+
+  getPlaylists() {
+    return this.playlists.asReadonly();
+  }
 
   createPlaylist(name: string, description: string) {
     const newPlaylist: Playlist = {
@@ -69,9 +78,20 @@ export class MusicService {
     this.showSuccess('Canción eliminada', 'Se quitó la canción de la lista');
   }
 
+  searchTracks(query: string): Observable<Track[]> {
+    return this.http.get<any>(`${this.baseUrl}?q=${query}`).pipe(
+      map(res => res.data.map((item: any) => ({
+        id: item.id.toString(),
+        title: item.title,
+        artist: item.artist.name,
+        duration: item.duration,
+        albumArt: item.album.cover_medium,
+        previewUrl: item.preview
+      })))
+    );
+  }
+
   private showSuccess(summary: string, detail: string) {
     this.messageService.add({ severity: 'success', summary, detail, life: 3000 });
   }
-
-  // ... searchTracks ...
 }
