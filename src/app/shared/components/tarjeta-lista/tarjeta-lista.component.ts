@@ -14,4 +14,5 @@ import { Playlist } from '../../../core/modelos/musica.modelos';
 export class PlaylistCardComponent {
   @Input({ required: true }) playlist!: Playlist;
   @Output() onDelete = new EventEmitter<string>();
+  @Output() onEdit = new EventEmitter<Playlist>();
 }

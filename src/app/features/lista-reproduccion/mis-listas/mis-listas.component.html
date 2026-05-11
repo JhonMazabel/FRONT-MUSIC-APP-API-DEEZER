@@ -11,7 +11,7 @@
   <div class="grid mt-2">
     @for (playlist of playlists(); track playlist.id) {
       <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
-        <app-playlist-card [playlist]="playlist" (onDelete)="deletePlaylist($event)"></app-playlist-card>
+        <app-playlist-card [playlist]="playlist" (onDelete)="deletePlaylist($event)" (onEdit)="editPlaylist($event)"></app-playlist-card>
       </div>
     } @empty {
       <div class="col-12 flex justify-content-center mt-8">

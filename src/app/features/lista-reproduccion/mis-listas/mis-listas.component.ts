@@ -23,18 +23,31 @@ export class PlaylistListComponent {
   display = false;
   newName = '';
   newDesc = '';
+  editingPlaylistId: string | null = null;
 
   constructor(private musicService: MusicService) {}
 
   showDialog() {
+    this.editingPlaylistId = null;
     this.display = true;
     this.newName = '';
     this.newDesc = '';
   }
 
+  editPlaylist(playlist: any) {
+    this.editingPlaylistId = playlist.id;
+    this.newName = playlist.name;
+    this.newDesc = playlist.description;
+    this.display = true;
+  }
+
   savePlaylist() {
     if (this.newName) {
-      this.musicService.createPlaylist(this.newName, this.newDesc);
+      if (this.editingPlaylistId) {
+        this.musicService.updatePlaylist(this.editingPlaylistId, this.newName, this.newDesc);
+      } else {
+        this.musicService.createPlaylist(this.newName, this.newDesc);
+      }
       this.display = false;
     }
   }

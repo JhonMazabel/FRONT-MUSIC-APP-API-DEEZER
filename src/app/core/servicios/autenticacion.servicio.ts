@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../models/musica.modelos';
+import { User } from '../modelos/musica.modelos';
 
 @Injectable({
   providedIn: 'root'

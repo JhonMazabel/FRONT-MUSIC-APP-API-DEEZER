@@ -1,6 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Track, Playlist } from '../models/musica.modelos';
+import { Track, Playlist } from '../modelos/musica.modelos';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -51,6 +51,12 @@ export class MusicService {
     this.playlists.update(p => p.filter(pl => pl.id !== id));
   }
 
+  updatePlaylist(id: string, name: string, description: string) {
+    this.playlists.update(playlists => playlists.map(p => 
+      p.id === id ? { ...p, name, description } : p
+    ));
+  }
+
   addTrackToPlaylist(playlistId: string, track: Track) {
     this.playlists.update(playlists => playlists.map(p => 
       p.id === playlistId ? { ...p, tracks: [...p.tracks, track] } : p
@@ -59,7 +65,7 @@ export class MusicService {
 
   removeTrackFromPlaylist(playlistId: string, trackId: string) {
     this.playlists.update(playlists => playlists.map(p => 
-      p.id === playlistId ? { ...p, tracks: p.tracks.filter(t => t.id !== trackId) } : p
+      p.id === playlistId ? { ...p, tracks: p.tracks.filter((t: any) => t.id !== trackId) } : p
     ));
   }
 

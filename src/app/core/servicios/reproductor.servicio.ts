@@ -1,5 +1,5 @@
 import { Injectable, signal, effect } from '@angular/core';
-import { Track } from '../models/musica.modelos';
+import { Track } from '../modelos/musica.modelos';
 
 @Injectable({
   providedIn: 'root'
